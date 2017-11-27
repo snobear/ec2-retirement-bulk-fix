@@ -3,7 +3,7 @@
 This script allows you to:
 
 - List all AWS EC2 instances that are scheduled for retirement in a given region
-- Do a bulk stop and start of these instances (so that they are migrated on new hardware)
+- Do a bulk stop and start of these instances (so that they are migrated to new hardware)
 
 You could use this to automate handling of instance retirements. Or to make life easier if you manage many EC2 instances and thus get a ton of retirement notices at once.
 
