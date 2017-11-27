@@ -71,7 +71,7 @@ def get_instances(region, exclude_names=['master','search']):
         instances[_id] = { 'name' : inst_name }
 
         for e in s['Events']:
-            # exclude completed events and elasticsearch nodes
+            # exclude completed events and any excluded nodes
             event_date = e['NotBefore'].replace(tzinfo=None)
             excluded_by_name = any(x in inst_name.lower() for x in exclude_names)
 
