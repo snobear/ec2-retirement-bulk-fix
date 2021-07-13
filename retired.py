@@ -13,13 +13,13 @@ def stop_instance(instance_id, region):
     instance = ec2.Instance(instance_id)
     state = 'unknown'
     while not 'stopped' in state.lower():
-        print "Waiting for %s to stop..." % instance_id
+        print( "Waiting for %s to stop..." % instance_id)
         response = instance.stop(Force=True)
         if response.get('StoppingInstances'):
             state = response['StoppingInstances'][0]['CurrentState']['Name']
         time.sleep(5)
 
-    print "%s new state: %s" % (instance_id,state)
+    print( "%s new state: %s" % (instance_id,state))
 
 def start_instance(instance_id, region):
     """
@@ -29,13 +29,13 @@ def start_instance(instance_id, region):
     instance = ec2.Instance(instance_id)
     state = 'unknown'
     while not 'running' in state.lower():
-        print "Waiting for %s to start..." % instance_id
+        print( "Waiting for %s to start..." % instance_id)
         response = instance.start()
         if response.get('StartingInstances'):
             state = response['StartingInstances'][0]['CurrentState']['Name']
         time.sleep(5)
 
-    print "%s new state: %s" % (instance_id,state)
+    print( "%s new state: %s" % (instance_id,state))
 
 def get_instance_name(instance_id, region):
     """
@@ -78,7 +78,7 @@ def get_instances(region, exclude_names=['master','search']):
             # unfortunately there is no status to denote completed events, so using description field
             if (event_date < now) or ('completed' in e['Description'].lower()) or excluded_by_name:
                 if excluded_by_name:
-                    print "%s excluded due to the following name exclusions: %s" % (inst_name, exclude_names)
+                    print( "%s excluded due to the following name exclusions: %s" % (inst_name, exclude_names))
                 del instances[_id]
                 break
 
@@ -93,9 +93,9 @@ def list_instances(instances):
     Print list of instance events
     """
     column_format = '{0: <25} {1: <20} {2: <15} {3: <14} {4: <40}'
-    print column_format.format('Name','ID','Event Code','Scheduled Date','Description')
+    print( column_format.format('Name','ID','Event Code','Scheduled Date','Description'))
     for k,inst in instances.iteritems():
-        print column_format.format(inst['name'], k, inst['code'], inst['scheduled_date'], inst['description'])
+        print( column_format.format(inst['name'], k, inst['code'], inst['scheduled_date'], inst['description']))
 
 if __name__ == '__main__':
     # set up params
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     instances = get_instances(region)
 
     if len(instances) <= 0:
-        print 'There are no instances with scheduled events in region %s.' % region
+        print( 'There are no instances with scheduled events in region %s.' % region)
         sys.exit(0)
 
     list_instances(instances)
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     if args.stopstart:
         choice = raw_input('\nThe above instances will be stopped and started. Continue? [y/n]:').lower()
         if choice not in ['yes','y']:
-            print 'Exiting, no changes made.'
+            print( 'Exiting, no changes made.')
             sys.exit(1)
 
         for instance_id,detail in instances.iteritems():
